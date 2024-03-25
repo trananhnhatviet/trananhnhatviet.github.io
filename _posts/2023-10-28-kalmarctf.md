@@ -3,7 +3,7 @@ title: Kalmar CTF 2024 - Writeups
 date: 2024-03-25 12:00:00
 categories: [CTF]
 tags: [cryptography,KalmarCTF]
-image: /assets/image/this-is.mp4
+image: /assets/image/meme.jpg
 math: true
 ---
 ### Cracking Casino
