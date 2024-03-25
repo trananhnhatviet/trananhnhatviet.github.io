@@ -218,8 +218,7 @@ print(P)
 
 Flag là tọa độ x
 
-**Flag: bi0sctf{https://bit.ly/3I0zwtG}**
-
+> Flag: **bi0sctf{https://bit.ly/3I0zwtG}**
 
 ## LALALA
 
@@ -252,23 +251,3 @@ print(f"{output = }")
 Ta thu được rất nhiều giá trị output, tận nhìu nhìu MB lận.
 
 Phân tích bài này, ta thấy được rằng $$Unknown$$ gồm có 10 giá trị, ngoài ra còn có 100 vòng for bao gồm:
-
-- Vòng for 0:
-    Gồm 100 vòng for
-
-  - $$aa_0 + unknown_{b_0}^{2}.unknown_{c_0}^{3} \pmod{p}$$
-
-    ...
-
-  - $$aa_{99} + unknown_{b_{99}}^{2}.unknown_{c_{99}}^{3} \pmod{p}$$
-
-...
-
-- Vòng for 99:
-    Gồm 100 vòng for
-
-  - $$aa_0 + unknown_{b_0}^{2}.unknown_{c_0}^{3} \pmod{p}$$
-
-    ...
-
-  - $$aa_{99} + unknown_{b_{99}}^{2}.unknown_{c_{99}}^{3} \pmod{p}$$
