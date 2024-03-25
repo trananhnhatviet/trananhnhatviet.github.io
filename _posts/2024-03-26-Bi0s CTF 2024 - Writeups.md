@@ -218,7 +218,7 @@ print(P)
 
 Flag là tọa độ x
 
-> Flag: **bi0sctf{https://bit.ly/3I0zwtG}**
+``Flag: **bi0sctf{https://bit.ly/3I0zwtG}``
 
 ## LALALA
 
