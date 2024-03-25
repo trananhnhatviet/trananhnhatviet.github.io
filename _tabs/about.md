@@ -3,7 +3,8 @@
 icon: fas fa-info-circle
 order: 4
 ---
-👨‍💼 My name is Tran Anh Nhat Viet, also know under my nickname [**nhatzittt**]()
+## About
+👨‍💼 My name is Tran Anh Nhat Viet, also know under my nickname **nhatzittt**
 
 👜 ‍Study cybersecurity at the Academy Of Cryptography Techniques
 
