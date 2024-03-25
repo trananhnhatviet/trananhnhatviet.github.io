@@ -218,11 +218,6 @@ print(P)
 
 Flag là tọa độ x
 
-```yaml
-Flag: bi0sctf{https://bit.ly/3I0zwtG}
-
-```
-
 ## LALALA
 
 Source code của chall như sau:
