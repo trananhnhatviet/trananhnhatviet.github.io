@@ -2,7 +2,7 @@
 title: Bi0s CTF 2024 Challengename - Writeups
 date: 2024-03-26 00-40-56
 categories: [CTF]
-tags: [cryptography,HTB]
+tags: [cryptography,bi0s]
 image: /assets/image/bi0s.png
 math: true
 ---
