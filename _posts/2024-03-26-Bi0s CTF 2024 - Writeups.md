@@ -268,23 +268,6 @@ $$\text{hệ số}.unknown_{b_0}^{2}.unknown_{c_0}^{3} + \text{hệ số}.unknow
 
 Tương tự như thế, 100 vòng for ta sẽ có ma trận như sau:
 
-$$
-\begin{equation*}
-    \begin{bmatrix}
-        coeff_0.b_0.c_0 & coeff_0.b_0.c_1 & ... & coeff_0.b_9.c_9 \\
-        coeff_1.b_0.c_0 & coeff_1.b_0.c_1 & ... & coeff_1.b_9.c_9 \\
-        \vdots & \vdots \\
-    coeff_{99}.b_0.c_0 & coeff{99}.b_0.c_1 & ... & coeff{99}.b_9.c_9 \\
-    \end{bmatrix}
-    =
-    \begin{bmatrix}
-         result_0 - sum(aa_0) \\
-        result_1 - sum(aa_1) \\
-        \vdots  \\
-        result_99 - sum(aa_99)
-    \end{bmatrix}
-\end{equation*}
-$$
 
 Sau đó ta chỉ cần dùng hàm ``solve_right`` của sage là có thể tìm được 100 nghiệm từ $$unknown_{0}^{2}.unknown_{0}^{3}$$ tới $$unknown_{9}^{2}.unknown_{9}^{3}$$
 
