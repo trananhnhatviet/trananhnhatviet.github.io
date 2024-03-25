@@ -7,7 +7,6 @@ image: /assets/image/bi0s.png
 math: true
 ---
 
-
 ## Challengename
 
 Source code của chall như sau
