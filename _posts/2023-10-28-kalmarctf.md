@@ -6,12 +6,12 @@ tags: [cryptography,KalmarCTF]
 image: /assets/image/meme.jpg
 math: true
 ---
-### Cracking Casino
+## Cracking Casino
 Source code như sau
 
 **Pedersen_commitments.py**
 
-```python3=
+```python
 
 from Crypto.Util.number import getStrongPrime
 from Crypto.Random.random import randint
@@ -49,7 +49,7 @@ def verify(param, c, r, x):
 ```
 
 **casino.py**
-```python3=
+```python
 #!/usr/bin/python3 
 from Pedersen_commitments import gen, commit, verify
 
@@ -153,7 +153,7 @@ if __name__ == "__main__":
 ```
 
 
-```python3=
+```python
 from pwn import *
 from tqdm import trange
 from randcrack import RandCrack
@@ -184,7 +184,7 @@ io.interactive()
 Phân tích source code
 
 Ta thấy rằng, hàm ``gen()`` sẽ sinh ra output gồm 3 số là $$q$$, $$g$$ và $$h$$
-```python3=
+```python
 def gen():
     q = getStrongPrime(1024)
     
@@ -197,7 +197,7 @@ def gen():
 
 
 Sau đó, hàm sẽ lấy 1 số $$dbg$$ random trong $$[0, 2^{32} - 2]$ $sau đó $$commit(q,g,h,dbg)$$
-```python3=
+```python
 def debug_test(pk):
     dbg = randint(0,2**32-2)
     comm, r = commit(pk,dbg)
@@ -221,7 +221,7 @@ Và giờ ta phải nhập $guess$ để sao cho
 $$comm = (g^{guess} \pmod{q} . h^{r} \pmod{q}) \pmod{q}$$
 
 
-```python3=
+```python
 def check_dbg(pk,comm,guess,r):
     res = verify(pk,comm, r, int(guess))
     return res
@@ -235,7 +235,7 @@ def verify(param, c, r, x):
 ```
 
 Ta thấy rằng, $$dbg \in [0, 2^{32} - 2]$$, ngoài ra, ta có thể được thử 1337 lần và được biết giá trị của $$dbg$$ khi không đoán. Vì $$dbg$$ là số 32 bit, việc đoán lại seed rất dễ dàng. Ta sẽ sử dụng ``RANDCRACK`` để hoàn thành thử thách này
-```python3=
+```python
 from pwn import *
 from tqdm import trange
 from randcrack import RandCrack
@@ -263,9 +263,9 @@ io.interactive()
 **Flag: Kalmar{First_Crypto_Down!}**
 
 
-### Re-Cracking Casino
+## Re-Cracking Casino
 
-```python3=
+```python
 #!/usr/bin/python3 
 from Pedersen_commitments import gen, commit, verify
 
@@ -395,7 +395,7 @@ Mình cũng có test thử và được kết quả như sau
 ![image](https://hackmd.io/_uploads/rJkgjAaCa.png)
 
 Thế nhưng, bài này có 1 bug hơi to, nếu mình chơi Dice thì sẽ chọn từ 1 tới 6, thế nhưng ở hàm **verify** thì lại như thế này
-```python3=
+```python
 def verify(param, c, r, x):
     q, g, h = param
     if not (x > 1 and x < q):
@@ -405,7 +405,7 @@ def verify(param, c, r, x):
 
 Vì thế, mỗi khi dice lăn vào 1 thì sẽ bị False, thế nên mình sửa thành $x > 0$ để làm bài này.
 
-```python3=
+```python
 from pwn import *
 from Crypto.Random.random import randint
 from Crypto.Util.number import sieve_base
