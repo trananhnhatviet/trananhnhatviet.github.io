@@ -14,4 +14,4 @@ order: 4
 
 ## Contact Me
 
-You can reach out to me on [Facebook](https://www.facebook.com/nhatziet1809) or Discord (nhatziet#4375).
+📞 You can reach out to me on [Facebook](https://www.facebook.com/nhatziet1809) or Discord (nhatziet#4375).
