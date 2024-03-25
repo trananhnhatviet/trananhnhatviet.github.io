@@ -15,7 +15,7 @@ Source code của chall như sau:
 from random import randint
 from re import search
 
-flag = "bi0sctf{%s}" % f"{randint(2**39, 2**40):x}"
+flag = "bi0sctf{ %s }" % f"{randint(2**39, 2**40):x}"
 
 p = random_prime(2**1024)
 unknowns = [randint(0, 2**32) for _ in range(10)]
