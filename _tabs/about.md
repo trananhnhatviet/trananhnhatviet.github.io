@@ -3,13 +3,14 @@
 icon: fas fa-info-circle
 order: 4
 ---
+👨‍💼 My name is Tran Anh Nhat Viet, also know under my nickname [**nhatzittt**]()
 
-👜 ‍Recent graduate with a Bachelor’s Degree in Information Technology (Computer Networking and Security) and is currently undergoing an internship at Crowe Malaysia PLT as an IT Auditor.
+👜 ‍Study cybersecurity at the Academy Of Cryptography Techniques
 
-👾 Developed a profound interest in the field of DFIR and blue teaming. Pwned several challenges and Sherlocks on HTB, BTLO and CyberDefenders during my free time to train my DFIR skills. Currently focusing on obtaining professional certifications like CDSA and BTL1.
+👾 In my opinion, if you want to learn Cryptography, you must have a strong enough background in Mathematics and Computer Science. 
 
-🚩 Actively participates in CTFs with my friends and also a member of Malaysia's biggest CTF team, M53.
+🚩 Actively participates in CTFs with my friends and also a member of KCSC.
 
 ## Contact Me
 
-You can reach out to me on [LinkedIn](https://www.linkedin.com/in/robbinooi/) or Discord (@warlocksmurf).
+📞 You can reach out to me on [Facebook](https://www.facebook.com/nhatziet1809) or Discord (nhatziet#4375).
