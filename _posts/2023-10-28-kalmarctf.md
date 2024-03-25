@@ -196,7 +196,7 @@ def gen():
 ```
 
 
-Sau đó, hàm sẽ lấy 1 số $$dbg$$ random trong $$[0, 2^{32} - 2]$ $sau đó $$commit(q,g,h,dbg)$$
+Sau đó, hàm sẽ lấy 1 số $$dbg$$ random trong $$[0, 2^{32} - 2]$$ sau đó $$commit(q,g,h,dbg)$$
 ```python
 def debug_test(pk):
     dbg = randint(0,2**32-2)
@@ -373,9 +373,11 @@ if __name__ == "__main__":
 
 Chall này vẫn như cũ nhưng mà giảm số vòng xuống còn 256, và không thể dùng được randcrack.
 
-Ta thấy rằng: $$comm = g^x * h^r \pmod{q} = g^{x + rs} \pmod{q}$$
+Ta thấy rằng: 
+$$comm = g^x * h^r \pmod{q} = g^{x + rs} \pmod{q}$$
 
 Và ví dụ $$gcd(q-1,s) = p$$ với $$p$$ là một số nguyên tố, ta sẽ có được rằng
+
 $$comm^{\frac{q-1}{p}} \pmod{q}= g^{(x+rs).\frac{q-1}{p}} \pmod{q}$$
 
 $$\hspace{7.2cm}=g^{x.\frac{q-1}{p}} \pmod{q}.g^{rt(q-1)} \pmod{q}$$
