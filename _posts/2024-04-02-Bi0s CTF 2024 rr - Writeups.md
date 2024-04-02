@@ -103,4 +103,20 @@ $$c_0 = k_0*d_0 \ mod \ p$$
 
 Từ đó, ta có thể tìm lại $$k_{0} = c_{0} \ (d_{0})^{-1} \mod \ p $$
 
-Thế giờ với $$p^3$$ thì sao
+Thế giờ với $$p^r$$ thì sao
+
+Đặt $$x = x_{r} \ p^{r} + … + x_{1} \ p + x_{0}$$
+
+Ta có được rằng:
+
+$$y = g^x \mod p^{r+2}, \ x < p^{(r+1)}$$
+
+Tương tự như trên, ta mũ hai về với $$p-1$$, ta được:
+
+$$y^{p-1} = (g^{p-1})^x \mod p^{r+2}$$
+
+$$⟺ (c_r*p^2 + \dots + c_1*p + 1) = (dr*p^r + \dots + d_1*p + 1)^{x_{r} \ p^{r} + … + x_{1} \ p + x_{0}} \mod p^{{r+1}}
+$$
+
+$$⟹ c_1*p = d_1*x_0 \ mod \ p$$
+
