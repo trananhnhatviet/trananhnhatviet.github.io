@@ -113,9 +113,68 @@ $$y = g^x \mod p^{r+2}, \ x < p^{(r+1)}$$
 
 Tương tự như trên, ta mũ hai về với $$p-1$$, ta được:
 
-$$y^{p-1} = (g^{p-1})^x \mod p^{r+2}$$
+$$y^q = (g^q) ^ {x} \mod p^{r+1}, x < p^{r}$$
 
-$$(c_r*p^2 + \dots + c_1*p + 1) = (dr*p^r + \dots + d_1*p + 1)^{x_{r} \ p^{r} + … + x_{1} \ p + x_{0}} \mod p^{{r+1}}$$
+$$ \iff \underbrace{(c_r p^r + \cdots + c_1 p + 1)}_{c = y^q \mod p^{r+1}} = {\underbrace{(d_r p^r + \cdots + d_1 p + 1)}_{d = g^q \mod p^{r+1}}}^{x_{r-1} p^{r-1} + \cdots + x_1p +  x_0} \mod p^{r+1} $$
 
-$$⟹ c_1*p = d_1*x_0 \ mod \ p$$
+$$\implies c_1 = d_1x_0 \mod p$$
 
+Sau khi tìm lại được $$x_0$$, ta được như sau:
+
+$$y^q = (g^q)^x \mod p^{r+2} $$
+
+$$y^q = (g^q)^{({x_{r} \ p^{r} + … + x_{1} \ p + x_{0}})} \mod p^{r+2}$$
+
+$$(y \ g^{-x_{0}})^q = (g^q)^{p \ ({x_{r} \ p^{r} + … + x_{2} \ p + x_{1}})} \mod p^{r+2}$$
+
+Và đặt $$y’ = (y \ g^{-x_{0}})$$ và $$g’ = g^p$$, tiếp tục tìm khi hoàn thiện được giá trị $$x$$.
+
+
+Đọc khó hiểu đúng không, giờ ta ví dụ nhé
+
+$$p = 65537$$
+
+$$x = 65537*7 + 123$$
+
+$$K = 69^x \mod p^3$$
+
+$$K ^ {p-1} = (69^{p-1})^x \mod p^3$$
+
+$$38209*p^2 + 62417*p + 1 = (24572*p^2 + 49527*p + 1)^x \mod p^3$$
+
+$$38209*p^2 + 62417*p + 1 \mod p^3$$
+
+$$\iff 62417*p + 1 \mod p^2$$
+
+$$(24572*p^2 + 49527*p + 1)^{x_1*p+x_0} \mod p^3$$
+
+$$\iff (24572*p^2 + 49527*p + 1)^{x_1*p} \mod p^3$$
+
+$$* (24572*p^2 + 49527*p + 1)^{x_0} \mod p^3$$
+
+
+$$\iff (24572*p^2 + 49527*p + 1)^{x_0} \mod p^3$$
+
+$$\iff (49527*p + 1)^{x_0} \mod p^2$$
+
+$$38209*p^2 + 62417*p + 1 = (24572*p^2 + 49527*p + 1)^x \mod p^3$$
+
+$$\implies 62417*p + 1 = (49527*p + 1)^{x_0} \mod p^2$$
+
+Giờ quay lại $$p^2$$ rồi, ta tiếp tục
+
+$$ 62417*p + 1 = 1 + 49527*p*x_0* \mod p^2$$
+
+$$ 62417= 49527*x_0* \mod p$$
+
+$$x_0 = 62417*(49527^{-1}) \mod p = 123$$
+
+Từ đó, ta có được
+
+$$K = 69^{x_1*p + 123} \mod p^3$$
+
+$$K^{p-1} = (69^{p-1})^{x_1*p + 123} \mod p^3$$
+
+$$(K*69^{-123})^{p-1} = [(69^{p})^{p-1}]^{x_1} \mod p^3$$
+
+Tiếp tục cho tới khi hoàn thành được $$x$$
