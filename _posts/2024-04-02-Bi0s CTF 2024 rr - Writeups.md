@@ -115,7 +115,7 @@ Tương tự như trên, ta mũ hai về với $$p-1$$, ta được:
 
 $$y^{p-1} = (g^{p-1})^x \mod p^{r+2}$$
 
-$$⟺ (c_r*p^2 + \dots + c_1*p + 1) = (dr*p^r + \dots + d_1*p + 1)^{x_{r} \ p^{r} + … + x_{1} \ p + x_{0}} \mod p^{{r+1}}$$
+$$(c_r*p^2 + \dots + c_1*p + 1) = (dr*p^r + \dots + d_1*p + 1)^{x_{r} \ p^{r} + … + x_{1} \ p + x_{0}} \mod p^{{r+1}}$$
 
 $$⟹ c_1*p = d_1*x_0 \ mod \ p$$
 
