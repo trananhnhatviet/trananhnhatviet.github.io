@@ -55,20 +55,20 @@ $$
 \begin{cases}
 c1 = (\sum_{i=0}^{19} k_i \ flag^i) ^ {127} \mod \ n \\
 c2 = flag^{65537} \mod \ n \\
-k_{new} = [69^{k_{i}} \mod \ p^{i+2}], \ i \in [0, 19]
+K = [69^{k_{i}} \mod \ p^{i+2}], \ i \in [0, 19]
 \end{cases}
 $$
 
 Ta có rằng
-$$k_{new} = [69^{k_{i}} \mod \ p^{i+2}], \ i \in [0, 19]$$
+$$K = [69^{k_{i}} \mod \ p^{i+2}], \ i \in [0, 19]$$
 
 Với i == 0, ta có được:
 
-$$k_{{new}_0} = 69^{k_{0}} \mod \ p^{2}$$
+$$K_0 = 69^{k_{0}} \mod \ p^{2}$$
 
 Ta mũ hai vế với $$p-1$$, ta được:
 
-$$k_{{new}_0}^{p-1} = (69^{p-1})^{k_{0}} \mod \ p^{2}$$
+$$K_0^{p-1} = (69^{p-1})^{k_{0}} \mod \ p^{2}$$
 
 Theo định lý Fermat nhỏ, ta có được rằng:
 
