@@ -178,3 +178,62 @@ $$K^{p-1} = (69^{p-1})^{x_1*p + 123} \mod p^3$$
 $$(K*69^{-123})^{p-1} = [(69^{p})^{p-1}]^{x_1} \mod p^3$$
 
 Tiếp tục cho tới khi hoàn thành được $$x$$
+
+Giờ ta quay lại với 2 phương trình kia đó là 
+
+$$f_1(x) = (\sum_{i=1}^{10} k_i \ x^i) ^ {127} - c1 \mod \ n$$
+
+$$f_2(x) = x^{65537} - c2 \mod \ n$$
+
+Giờ ta chỉ cần tính gcd của 2 phương trình này là sẽ thu được flag thui hehehe.
+
+
+```python
+from Crypto.Util.number import*
+from sage.all import*
+from chall import*
+
+def find_x(y,g,p,q,r):
+    c = pow(y,q,p**r)
+    d = pow(g,q,p**r)
+    kx = (c-1)//(p**(r-1))
+    k  = (d-1)//(p**(r-1))
+    x = kx*pow(k,-1,p) % p
+    return x
+
+def find_dlog(y,g,p,q,r):
+    xs = []
+    for i in range(r-1):
+        xi = find_x(y,g,p,q,i+2)
+        xs.append(xi)
+        y = y * pow(g,-xi, p**r)
+        g = pow(g,p,p**r)
+    return xs
+
+def pgcd(g1, g2):
+    while g2:
+        g1, g2 = g2, g1 % g2
+    return g1.monic()
+
+p = rr
+q = rr - 1
+rks = []
+for rd in range(20):
+    g = 69
+    y = ks[rd]
+    r = rd + 2
+    x = find_dlog(y,g,p,q,r)
+    real_x = 0
+    for i in range(len(x)):
+        real_x += x[i]*(p**(i))
+    print("[+] rounds",rd, "check", pow(g,real_x,p**r) == y)
+    rks.append(real_x)
+
+PR = PolynomialRing(Zmod(n), names='x')
+f1 = sum(k*PR.gen()**i for i, k in enumerate(rks))**((1 << 7) - 1) - c1
+f2 = PR.gen()**(65537) - c2
+f0 = pgcd(f1,f2)
+print(long_to_bytes(int(- f0.constant_coefficient() % n)))
+```
+
+**Flag: bi0sctf{https://www.youtube.com/watch?v=soDR-BctVeE___1e9c4e8dba79812bd81ec4c2}**
