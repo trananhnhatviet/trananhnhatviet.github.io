@@ -2,7 +2,7 @@
 title: TAMUCTF2024 - Writeups
 date: 2024-04-13 15-43-38
 categories: [CTF]
-tags: [cryptography,HTB]
+tags: [cryptography,TAMUCTF]
 image: /assets/image/OIP.jpg
 math: true
 ---
@@ -366,7 +366,7 @@ $$ x_{257} = c_0*x_{256}^{255} + c_1*x_{256}^{254} + ...+ x_{256}*c_{254} + c_{2
 
 Từ đó, ta sẽ có hệ phương trình
 
-\begin{equation*}
+$$\begin{equation*}
     \begin{bmatrix}
         x_1^{255} & x_1^{254} & ... & x_1 & 1 \\
         x_2^{255} & x_2^{254} & ... & x_2 & 1 \\
@@ -380,7 +380,7 @@ Từ đó, ta sẽ có hệ phương trình
         \vdots  \\
         x_{257}
     \end{bmatrix}
-\end{equation*}
+\end{equation*}$$
 
 Lưu ý, phải giải trong trường hữu hạn m.
 
