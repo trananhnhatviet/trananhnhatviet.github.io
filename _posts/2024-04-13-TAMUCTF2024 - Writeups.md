@@ -366,21 +366,7 @@ $$ x_{257} = c_0*x_{256}^{255} + c_1*x_{256}^{254} + ...+ x_{256}*c_{254} + c_{2
 
 Từ đó, ta sẽ có hệ phương trình
 
-$$\begin{equation*}
-    \begin{bmatrix}
-        x_1^{255} & x_1^{254} & ... & x_1 & 1 \\
-        x_2^{255} & x_2^{254} & ... & x_2 & 1 \\
-        \vdots & \vdots \\
-    x_{256}^{255} & x_{256}^{254} & ... & x_{256} & 1 \\
-    \end{bmatrix}
-    =
-    \begin{bmatrix}
-         x_2 \\
-        x_3 \\
-        \vdots  \\
-        x_{257}
-    \end{bmatrix}
-\end{equation*}$$
+![image](/assets/image/matrix.png)
 
 Lưu ý, phải giải trong trường hữu hạn m.
 
