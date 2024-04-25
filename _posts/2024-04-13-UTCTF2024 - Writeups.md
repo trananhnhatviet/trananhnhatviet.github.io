@@ -6,10 +6,10 @@ tags: [cryptography,UTCTF]
 image: /assets/image/logo.png
 math: true
 ---
-
 # UTCTF2024
 
 ## RSA-256
+
 **Flag: utflag{just_send_plaintext}**
 
 ## Beginner: Anti-dcode
@@ -17,7 +17,7 @@ math: true
 ```python
 with open('LoooongCaesarCipher.txt','r') as file:
     data = file.read()
-    
+  
 for key in range(1,26):
     encrypted_text = ""
     for char in data:
@@ -30,9 +30,11 @@ for key in range(1,26):
         with open("out","w") as file:
             file.write(encrypted_text)
 ```
+
 **Flag: utflag{rip_dcode}**
 
 ## Bits and Pieces
+
 ```python
 from Crypto.Util.number import *
 
@@ -63,9 +65,8 @@ d3 = inverse(e3,(p3-1)*(q3-1))
 flag = long_to_bytes(pow(c1,d1,n1)) + long_to_bytes(pow(c2,d2,n2)) + long_to_bytes(pow(c3,d3,n3))
 print(flag)
 ```
+
 **Flag: utflag{oh_no_it_didnt_work_</3_i_guess_i_can_just_use_standard_libraries_in_the_future}**
-
-
 
 ## numbers go brrr
 
@@ -139,6 +140,7 @@ for i in range(993219,995495):
 **utflag{deep_seated_and_recurring_self-doubts}**
 
 ## numbers go brrr 2
+
 ```python
 #!/usr/bin/env python3
 from Crypto.Cipher import AES
@@ -178,7 +180,7 @@ for i in range(3):
         key, ciphertext = encrypt(message.encode())
         print("Here is your encrypted message:", ciphertext)
     print("You have 250 guesses to find the key!")
-    
+  
     found = False
     for j in range(250):
         print("What is your guess (in hex)?")
@@ -264,8 +266,8 @@ for word in lst:
     assert len(word) == 5
     for letter in word:
         assert letter in 'abcdefghijklmnopqrstuvwxyz'
-        
-        
+      
+      
 for attempt in range(3):
     answer = random.choice(lst)
     num_guesses = 0
