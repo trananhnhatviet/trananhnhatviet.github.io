@@ -328,8 +328,9 @@ if __name__ == "__main__":
 Bài này là bài đảo bit thôi, giờ mình cho bạn ví dụ này nhóeee. Cho 8 bit, và quy luật đảo sẽ như thế này.
 
 ```python
+7653210 -> 643751024
+```
 
-7653210 -> 643751024```
 Giờ làm sao biết được bit 0 nằm ở chỗ nào sau khi được đảo, vì chỉ có 0 và 1 thôi ???
 
 Mình sẽ gửi như thế này
