@@ -3,7 +3,7 @@ title: UMASS CTF 2024 - Writeups
 date: 2024-05-04 01-10-28
 categories: [CTF]
 tags: [cryptography,UMASS]
-image: /assets/image/logo.png
+image: /assets/image/UMASS.png
 math: true
 ---
 
@@ -161,7 +161,7 @@ if __name__ == '__main__':
 
 Bài này sẽ có dạng như hình này
 
-![image](https://hackmd-prod-images.s3-ap-northeast-1.amazonaws.com/uploads/upload_51d60a4feaae6d66eeae91f6b2d27d1c.png?AWSAccessKeyId=AKIA3XSAAW6AWSKNINWO&Expires=1714706501&Signature=kKhJkdyuOoGavoRhJQ%2FyPR%2B%2BFPo%3D)
+![image](/assets/image/UMASS1.png)
 
 Nhưng mà không cần bận tâm tới sơ đồ này, nó chỉ giúp bạn hiểu code hơn thôi.
 
@@ -175,7 +175,7 @@ def encrypt(data, key):
 
 Bài này na ná meet in the middle vậy, sẽ có một trạng thái ở giữa như thế này
 
-![image](https://hackmd-prod-images.s3-ap-northeast-1.amazonaws.com/uploads/upload_e5eca433d30c00614018aeb73d9cd681.png?AWSAccessKeyId=AKIA3XSAAW6AWSKNINWO&Expires=1714706962&Signature=b1AuiX2FdfY2LX4WZk0dhgsf1l4%3D)
+![image](/assets/image/UMASS2.png)
 
 Giờ ta chỉ cần bruteforce 2 byte, sau đó sẽ encrypt form flag và lưu vào 1 dict, làm tương tự với 4 byte đầu của ciphertext, nếu hai giá trị giống nhau thì sẽ thu được 2 byte đầu và 2 byte cuối của key.
 
