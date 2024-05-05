@@ -7,7 +7,6 @@ image: /assets/image/UMASS.png
 math: true
 ---
 
-# UMASS CTF 2024
 
 ## Third Times the Charm
 
@@ -423,3 +422,384 @@ print(long_to_bytes(shuffle_int(int(enc_flag, 16), revPerm)))
 
 **Flag: UMASS{6Huff3d_2_b1t5}**
 
+
+## Reader exercise
+
+```python
+from Crypto.Util.number import *
+from Crypto.Random.random import *
+
+
+class Polynomial:
+    def __init__(self, entries):
+        self.entries = entries
+
+    def __add__(self, other):
+        if len(self.entries) < len(other.entries):
+            return other + self
+        return Polynomial(
+            [x if y == 0 else (y if x == 0 else x + y) for x, y in zip(self.entries, other.entries)] +
+            self.entries[len(other.entries):]
+        )
+
+    def __neg__(self):
+        return Polynomial([-x for x in self.entries])
+
+    def __sub__(self, other):
+        return self + (-other)
+
+    def __mul__(self, o):
+        result = Polynomial([])
+        for power in range(len(self.entries)):
+            product = [0] * power + [self.entries[power] * y for y in o.entries]
+            result = result + Polynomial(product)
+        return result
+
+    def __mod__(self, other):
+        self.entries = [x % other for x in self.entries]
+        return self
+
+    def __str__(self):
+        return str(self.entries)
+
+    def __repr__(self):
+        return str(self)
+
+    def __call__(self, *args, **kwargs):
+        start = 1
+        s = self.entries[0]
+        for i in self.entries[1:]:
+            start *= args[0]
+            s += i * start
+        return s
+
+    def degree(self):
+        i = len(self.entries)
+        while i > 0:
+            i -= 1
+            if self.entries[i] != 0:
+                break
+        return i
+
+
+# Oh no this got corrupted :(
+def gen_pair(deg, mod):
+
+if __name__ == "__main__":
+    with open("flag.txt", "r") as f:
+        FLAG = f.read()
+    size = 500
+    base = 16
+    degree = 8
+    print(f"Gimme a sec to generate the prime...")
+    while True:
+        n = getPrime(size)
+        if n % (base * 2) == 1:
+            break
+    print(f"n = {n}")
+
+    p, q = gen_pair(degree, n)
+
+    assert isinstance(p, Polynomial) and isinstance(q, Polynomial)
+    assert p.degree() == degree
+    assert q.degree() < p.degree()
+
+    p_squared = p * p
+    q_squared = q * q
+    while True:
+        decision = input("What would you like to do?\n")
+        if decision == "challenge":
+            challenge = int(input("I will never fail your challenges!\n"))
+            proof = (p_squared(challenge) + q_squared(challenge)) % n
+            assert proof == (pow(challenge, base, n) + 1) % n
+            print(f"See? {proof}")
+        elif decision == "verify":
+            token = getRandomNBitInteger(size - 1) % n
+            print("Here's how verification works: ")
+            print(f"I give you:")
+            print(f"token = {token}")
+            print(f"You should give back:")
+            print(f"p(token) = {p(token) % n}")
+            print(f"q(token) = {q(token) % n}")
+
+            print(f"Simple enough, right?")
+            token = getRandomNBitInteger(size) % n
+            print(f"token = {token}")
+            p_attempt = int(input("p(token) = "))
+            q_attempt = int(input("q(token) = "))
+            assert p_attempt == p(token) % n and q_attempt == q(token) % n
+            print("Great job!")
+            print(FLAG)
+            break
+        else:
+            print("Probably not that...")
+```
+
+Chall này đã giấu đi phần tạo đa thức, thế nên nếu chạy local thì không chạy được đâu.
+
+Ta có rằng $$n = 32*k + 1$$.
+
+p và q đều là các đa thức, p thì có bậc là 8, còn q thì thấp hơn 8.
+
+Ngoài ra, ta có đoạn code này
+```python
+if decision == "challenge":
+            challenge = int(input("I will never fail your challenges!\n"))
+            proof = (p_squared(challenge) + q_squared(challenge)) % n
+            assert proof == (pow(challenge, base, n) + 1) % n
+            print(f"See? {proof}")
+```
+
+Từ đó ta có được rằng $$p^2(x) + q^2(x) \equiv x^{16} + 1 \mod n$$
+
+Ta sẽ được các giá trị $$p(x)$$ và $$q(x)$$ với $$x$$ là giá trị được cho trước khi chọn mode verify.
+
+Sau đó sẽ cho 1 giá trị $$x$$ ngẫu nhiên nữa, và ta phải tìm được $$p(x)$$ và $$q(x)$$.
+
+Ta có, $$n = 32*k + 1$$ và n là số nguyên tố, ta có được nhóm cấp số nhân là 32k. Có nghĩa là, sẽ có 1 giá trị là $$w$$ sao cho $$w^{32} \equiv 1 \mod n$$ (primitive root of unity of order 32).
+
+Từ đó có rằng $$w^{16} \equiv -1 \mod n$$ và $$(w^{16})^2 \equiv 1 \mod n$$. Từ đó ta có tiếp rằng:
+
+$$(w^{2k+1})^{16} \equiv (w^{16})^{2k+1} \equiv -1^{2k+1} \equiv -1 \mod n$$
+
+Lập phương trình $$x^{16} + 1 = 0$$, ta thấy được rằng, mọi giá trị $$w^{2k+1}$$ đều là nghiệm của phương trình trên (kể cả $$w^{2*(2k+1) + 1}$$). Từ đó ta có được biểu thức như sau:
+
+$$x^{16} + 1  \equiv (x-w)(x-w^3)...(x-w^{31}) \mod n$$
+
+$$p^2(x) + q^2(x) \equiv (x-w)(x-w^3)...(x-w^{31}) \mod n$$
+
+Và giờ factor giá trị $$x^{16} + 1$$ làm sao. Sage lo tất, bạn chỉ cần code như này, nó sẽ factor trong vành số nguyên tố n.
+
+```sage
+n = 2294505405318355842228536139242959225512907322770136086190040085726899066287792493096830186073306083576178909384425871692714131370600330072123330577121
+
+R.<x> = IntegerModRing(n)[]
+l = factor(x^16 + 1)
+
+```
+
+Sau đó, ta đã có 16 phần tử như trên rồi, ta sẽ bruteforce 8 vòng for =))). Ta sẽ lựa chọn lần lượt 8 giá trị trong 16 giá trị đó.
+
+```python
+for i1 in range(0,16):
+    for i2 in range(0,i1):
+        for i3 in range(0,i2):
+            for i4 in range(0,i3):
+                for i5 in range(0, i4):
+                    for i6 in range(0, i5):
+                        for i7 in range(0, i6):
+                            for i8 in range(0, i7):
+                                pol = R('1')
+                                pol2 = R('1')
+                                choice = [i8, i7, i6, i5, i4, i3, i2, i1]
+                                print(choice)
+                                for i in range(16):
+                                    if i in choice:
+                                        pol*=R(l[i][0])    
+                                    else:
+                                        pol2*=R(l[i][0])
+```
+
+Thế pol2 thì sẽ có bậc 8 mất, phải làm sao đây. Đừng lo, để giảm bậc thì ta chỉ cần thêm 1 dòng lệnh này nữa.
+
+```python
+                                pol,pol2= pol+pol2,pol-pol2
+```
+
+Sau đó chỉ cần căn bậc 2 trong trường số nguyên tố là sẽ thu được đa thức p rồi.
+```python
+pol = pol * pow(2, -1, n)
+print(pol)
+```
+
+Giờ ta chỉ cần lấy giá trị x, sau đó lấy giá trị p(x), sau đó ta sẽ bruteforce kiểm tra đa thức nào đúng, nếu đúng thì ta sẽ lấy token tiếp theo nhập vào là sẽ thu được flag. Vì có nhiều trường hợp, thế nên sẽ có lúc code chạy không ra flag. Thế nên hãy chạy nhiều lần nhóe.
+
+```python
+from pwn import*
+
+io = process(["python3", "real_chal.py"])
+
+io.recvuntil(b'n = ')
+n = int(io.recvuntil(b'\n',drop=True).decode())
+
+io.sendline(b'verify')
+
+io.recvuntil(b'I give you:\n')
+token = int(io.recvline().strip().split(b'token = ')[1].decode())
+
+io.recvuntil(b'You should give back:\n')
+pt = int(io.recvline().strip().split(b'p(token) = ')[1].decode())
+
+io.recvuntil(b'Simple enough, right?\n')
+new_token = int(io.recvline().strip().split(b'token = ')[1].decode())
+
+
+R.<x> = IntegerModRing(n)[]
+l = factor(x^16 + 1)
+
+for i1 in range(0,16):
+    for i2 in range(0,i1):
+        for i3 in range(0,i2):
+            for i4 in range(0,i3):
+                for i5 in range(0, i4):
+                    for i6 in range(0, i5):
+                        for i7 in range(0, i6):
+                            for i8 in range(0, i7):
+                                pol = R('1')
+                                pol2 = R('1')
+                                choice = [i8, i7, i6, i5, i4, i3, i2, i1]
+                                for i in range(16):
+                                    if i in choice:
+                                        pol*=R(l[i][0])    
+                                    else:
+                                        pol2*=R(l[i][0])
+                                pol,pol2= pol+pol2,pol-pol2
+                    
+                                pol = pol * pow(2, -1, n)
+                                val = pol(token)
+                                if val == pt%n:
+                                    print(pol)
+                                    pval = (pol(new_token))%n
+                                    qval = (pow(new_token, 16, n) + 1 - pow(pval, 2, n)) % n
+                                    qval = Mod(qval, n).sqrt()
+                                    io.recvuntil(b'p(token) = ')
+                                    io.sendline(str(pval).encode())
+                                    io.recvuntil(b'q(token) = ')
+                                    io.sendline(str(qval).encode())
+                                    
+                                    io.recvline()
+                                    io.interactive()
+```
+
+![image](/assets/image/UMASS3.png)
+
+**Flag: UMASS{1n5p1r3d_6y_pu7n@m_b4_2007}**
+
+Code để bạn chạy local đây nha.
+
+```python
+from Crypto.Util.number import *
+from Crypto.Random.random import *
+
+
+class Polynomial:
+    def __init__(self, entries):
+        self.entries = entries
+
+    def __add__(self, other):
+        if len(self.entries) < len(other.entries):
+            return other + self
+        return Polynomial(
+            [x if y == 0 else (y if x == 0 else x + y) for x, y in zip(self.entries, other.entries)] +
+            self.entries[len(other.entries):]
+        )
+
+    def __neg__(self):
+        return Polynomial([-x for x in self.entries])
+
+    def __sub__(self, other):
+        return self + (-other)
+
+    def __mul__(self, o):
+        result = Polynomial([])
+        for power in range(len(self.entries)):
+            product = [0] * power + [self.entries[power] * y for y in o.entries]
+            result = result + Polynomial(product)
+        return result
+
+    def __mod__(self, other):
+        self.entries = [x % other for x in self.entries]
+        return self
+
+    def __str__(self):
+        return str(self.entries)
+
+    def __repr__(self):
+        return str(self)
+
+    def __call__(self, *args, **kwargs):
+        start = 1
+        s = self.entries[0]
+        for i in self.entries[1:]:
+            start *= args[0]
+            s += i * start
+        return s
+
+    def degree(self):
+        i = len(self.entries)
+        while i > 0:
+            i -= 1
+            if self.entries[i] != 0:
+                break
+        return i
+
+
+def gen_pair(deg, mod):
+    while True:
+        r = pow(getPrime(10), (n - 1) // (deg * 4), n)
+        if pow(r, deg * 2, n) != 1:
+            break
+    piq = Polynomial([1])
+    p_iq = Polynomial([1])
+    inverse_2 = Polynomial([pow(2, -1, mod)])
+    p_sign = Polynomial([1]) if randint(0, 1) == 1 else Polynomial([mod - 1])
+    q_sign = Polynomial([1]) if randint(0, 1) == 1 else Polynomial([mod - 1])
+    u = [Polynomial([pow(r, 2 * k + 1, mod), 1]) for k in range(deg * 2)]
+    choices = sample(u, deg)
+    for factor in u:
+        if factor in choices:
+            piq = piq * factor
+        else:
+            p_iq = p_iq * factor
+    return ((piq + p_iq) * p_sign * inverse_2) % mod, ((piq - p_iq) * q_sign * inverse_2 * Polynomial([pow(r, deg, mod)])) % mod
+
+
+if __name__ == "__main__":
+    FLAG = "UMASS{1n5p1r3d_6y_pu7n@m_b4_2007}"
+    size = 500
+    base = 16
+    degree = 8
+    print(f"Gimme a sec to generate the prime...")
+    while True:
+        n = getPrime(size)
+        if n % (base * 2) == 1:
+            break
+    print(f"n = {n}")
+    p, q = gen_pair(degree, n)
+    
+    assert isinstance(p, Polynomial) and isinstance(q, Polynomial)
+    assert p.degree() == degree
+    assert q.degree() < p.degree()
+
+    p_squared = p * p
+    q_squared = q * q
+    while True:
+        decision = input("What would you like to do?\n")
+        if decision == "challenge":
+            challenge = int(input("I will never fail your challenges!\n"))
+            proof = (p_squared(challenge) + q_squared(challenge)) % n
+            assert proof == (pow(challenge, base, n) + 1) % n
+            print(f"See? {proof}")
+        elif decision == "verify":
+            token = getRandomNBitInteger(size - 1) % n
+            print("Here's how verification works: ")
+            print(f"I give you:")
+            print(f"token = {token}")
+            print(f"You should give back:")
+            print(f"p(token) = {p(token) % n}")
+            print(f"q(token) = {q(token) % n}")
+
+            print(f"Simple enough, right?")
+            token = getRandomNBitInteger(size) % n
+            print(f"token = {token}")
+            p_attempt = int(input("p(token) = "))
+            q_attempt = int(input("q(token) = "))
+            assert p_attempt == p(token) % n and q_attempt == q(token) % n
+            print("Great job!")
+            print(FLAG)
+            break
+        else:
+            print("Probably not that...")
+
+
+```
